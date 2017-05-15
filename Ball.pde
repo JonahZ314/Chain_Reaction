@@ -13,23 +13,38 @@ class Ball {
   // D E F A U L T   C O N S T R U C T O R
   
   Ball ()  {
-    rad = 20; // Radius 
     x = (int) (random((width-rad) + rad/2)); // X-cor
     y = (int) (random((height-rad) + rad/2)); // Y-cor
+    rad = 20; // Radius 
     int rand1 = (int) (random(0,256)); // Red Input
     int rand2 = (int) (random(0,256)); // Green Input
     int rand3 = (int) (random(0,256)); // Blue Input
     col = color(rand1, rand2, rand3); // Uses RGB Input for a new color 
     dx = (int) (random(10)) + 1;  // Change in X
     dy = (int) (random(10)) + 1; // Change in Y
-    state = 0; // State Value (Dead or Alive???) 
+    state = 2; // State Value 
+  } 
+  
+  // C O N S T R U C T O R
+  
+    Ball (int neww, int newy)  {
+    x = neww; // X-cor
+    y = newy; // Y-cor
+    rad = 10; // Radius 
+    int rand1 = (int) (random(0,256)); // Red Input
+    int rand2 = (int) (random(0,256)); // Green Input
+    int rand3 = (int) (random(0,256)); // Blue Input
+    col = color(rand1, rand2, rand3); // Uses RGB Input for a new color 
+    dx = (int) (random(10)) - 5;  // Change in X
+    dy = (int) (random(10)) - 5; // Change in Y
+    state = 2; // State Value (Dead or Alive???) 
   } 
   
   void printCircles() { 
     // If alive... 
-    if (state == 0) { 
+    if (state != 0) { 
     fill(col); // Sets color
-    ellipse(x,y,rad,rad); // Creates a circle
+    ellipse(x,y,2*rad,2*rad); // Creates a circle
     } 
   } 
   
@@ -57,10 +72,6 @@ class Ball {
     }
   }
   
-  /*
-  
-  METHODS FOR THE INCREASED BALL PORTION....
-  
   boolean isTouching(Ball b) {
     return (rad+b.rad) > distance(b); 
   } 
@@ -71,7 +82,35 @@ class Ball {
     int ans = (int) (Math.sqrt(xs*xs + ys*ys)); 
     return ans; 
   } 
-  */ 
+  
+  // Three States: 
+  // 0: Dead, 1: Decreasing, 2: Stationary, 3: Increasing 
+  
+  int getState() { 
+    return state;   
+  }   
+  
+  void shrink() { 
+    if (rad > 0) { 
+      rad--;
+    } 
+    else { 
+      state = 0;
+    } 
+  } 
+  
+  void expand() {
+    if (rad < 50) { 
+      rad++; 
+    } 
+    else { 
+      state = 2; 
+    } 
+  } 
+
+  void setState(int state2) { 
+    state = state2;   
+  } 
   
   // R U N   M E T H O D
   
